@@ -1,6 +1,4 @@
-# /bin/sh
-
-# start the laravel dev app
+#!/bin/bash
 
 docker run --rm --interactive --tty \
   --volume $PWD:/app \
