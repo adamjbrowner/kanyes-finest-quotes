@@ -21,20 +21,15 @@ class PopulateCache implements ShouldQueue, ShouldBeUnique
      */
     public function handle(): void
     {
-        try {
-            $quotes = app(KanyeQuotesManager::class)->driver('api')->getQuotes(150);
-        } catch (\Exception $e) {
-            Log::error('Failed to populate cache: ' . $e->getMessage());
-            return;
-        }
+        $quotes = app(KanyeQuotesManager::class)->driver('api')->getQuotes(150);
 
-        $cacheQuotes = Cache::remember('kanye-quotes', env('CACHE_TTL'), function() {
+        $cacheQuotes = Cache::remember('kanye-quotes', config('constants.cache.ttl'), function() {
             return [];
         });
 
         $cacheQuotes = array_unique(array_merge($cacheQuotes, $quotes));
         
-        Cache::put('kanye-quotes', $cacheQuotes, env('CACHE_TTL'));
-        Cache::put('populated', true, env('CACHE_TTL'));
+        Cache::put('kanye-quotes', $cacheQuotes, config('constants.cache.ttl'));
+        Cache::put('populated', true, config('constants.cache.ttl'));
     }
 }

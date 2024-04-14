@@ -15,7 +15,7 @@ class CheckToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->header('Authorization') !== 'Bearer ' . env('API_TOKEN')) {
+        if ($request->header('Authorization') !== 'Bearer ' . config('constants.api.token')) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
         return $next($request);

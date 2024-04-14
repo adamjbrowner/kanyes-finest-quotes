@@ -10,7 +10,7 @@ class KanyeQuotesManager extends Manager
 
     public function getDefaultDriver()
     {
-        $useCache = Cache::remember('populated', env('CACHE_TTL'), function() {
+        $useCache = Cache::remember('populated', config('constants.cache.ttl'), function() {
             return false;
         });
 

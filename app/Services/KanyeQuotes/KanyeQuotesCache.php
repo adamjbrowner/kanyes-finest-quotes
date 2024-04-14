@@ -9,7 +9,7 @@ class KanyeQuotesCache implements KanyeQuotesDriver
 { 
     public function getQuotes(int $numQuotes): array
     {
-        $quotes = Cache::remember('kanye-quotes', env('CACHE_TTL'), function() {
+        $quotes = Cache::remember('kanye-quotes', config('constants.cache.ttl'), function() {
             return [];
         });
 
