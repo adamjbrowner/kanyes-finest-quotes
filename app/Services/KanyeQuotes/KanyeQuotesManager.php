@@ -16,4 +16,10 @@ class KanyeQuotesManager extends Manager
     {
         return new KanyeQuotesApi();
     }
+
+    public function createCacheDriver()
+    {
+        return new KanyeQuotesCache();
+    }
+
 }
