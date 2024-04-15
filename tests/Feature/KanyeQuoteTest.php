@@ -9,6 +9,12 @@ use Tests\TestCase;
 class KanyeQuoteTest extends TestCase
 {
 
+    public function test_the_kanye_quotes_endpoint_returns_401_when_no_token_is_provided(): void
+    {
+        $response = $this->get('/kanye-quotes');
+        $response->assertStatus(401);
+    }
+
     public function test_the_kanye_quotes_endpoint_returns_requested_num_quotes(): void
     {
         Queue::fake();

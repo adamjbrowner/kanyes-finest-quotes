@@ -2,7 +2,9 @@
 
 To get going, you need to have docker installed on your local system then go ahead and run
 
-```bash init_app.sh```
+```./init_app.sh```
+
+from a bash shell.
 
 Once that has installed it's dependencies and spun up the docker containers, visit [localhost]http://localhost and enjoy a wide range of strange things Kanye has said over the years!
 
