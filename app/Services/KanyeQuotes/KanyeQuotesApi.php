@@ -5,6 +5,7 @@ namespace App\Services\KanyeQuotes;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Pool;
 use App\Interfaces\KanyeQuotesDriver;
+use Illuminate\Support\Facades\Log;
 
 class KanyeQuotesApi implements KanyeQuotesDriver
 {
@@ -12,16 +13,20 @@ class KanyeQuotesApi implements KanyeQuotesDriver
 
     public function getQuotes(int $numQuotes): array
     {
-        $responses = Http::pool(function (Pool $pool) use ($numQuotes) {
+        $responses = Http::retry(3, 300)->pool(function (Pool $pool) use ($numQuotes) {
             for ($i = 0; $i < $numQuotes; $i++) {
                 $pool->get(self::API_URL);
             }
         });
 
         $quotes = collect($responses)->map(function ($response) {
+            if ($response->failed()) {
+                Log::error('Failed to get quote from Kanye API');
+                return null;
+            }
             return $response->json('quote');
         });
 
-        return $quotes->toArray();
+        return $quotes->filter()->toArray();
     }
 }
